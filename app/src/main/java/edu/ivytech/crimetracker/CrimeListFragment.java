@@ -1,5 +1,6 @@
 package edu.ivytech.crimetracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,10 @@ import java.util.List;
 
 public class CrimeListFragment extends Fragment {
 
+
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+
 
     @Nullable
     @Override
@@ -39,7 +42,8 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecyclerView.setAdapter(mAdapter);
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder {
+    private class CrimeHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
         private TextView crimeTitleTextView;
         private TextView crimeDateTextView;
@@ -50,12 +54,19 @@ public class CrimeListFragment extends Fragment {
 
             crimeTitleTextView = itemView.findViewById(R.id.crime_title);
             crimeDateTextView = itemView.findViewById(R.id.crime_date);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Crime crime) {
             mCrime = crime;
             crimeTitleTextView.setText(mCrime.getmTitle());
             crimeDateTextView.setText(mCrime.getmDate().toString());
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getmId());
+            startActivity(intent);
         }
     }
 
